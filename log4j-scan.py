@@ -157,7 +157,7 @@ class Interactsh:
         self.public_key = rsa.publickey().exportKey()
         self.private_key = rsa.exportKey()
         self.token = token
-        self.server = server.lstrip('.') or 'interactsh.com'
+        self.server = server.lstrip('.') or 'interact.sh'
         self.headers = {
             "Content-Type": "application/json",
         }
@@ -249,12 +249,13 @@ def scan_url(url, callback_host):
         cprint(f"[•] URL: {url} | PAYLOAD: {payload}", "cyan")
         if args.request_type.upper() == "GET" or args.run_all_tests:
             try:
-                requests.request(url=url,
+                response=requests.request(url=url,
                                  method="GET",
                                  params={"v": payload},
                                  headers=get_fuzzing_headers(payload),
                                  verify=False,
                                  timeout=timeout)
+                cprint(response.request.path_url)
             except Exception as e:
                 cprint(f"EXCEPTION: {e}")
 
